@@ -1,0 +1,15 @@
+(load "sqrt.scm")
+(define (cubic a b c)
+    (lambda (x)
+        (+
+            (cube x)
+            (* a (square x))
+            (* b x)
+            c
+        )
+    )
+)
+(define a 5)
+(define b 3)
+(define c 1)
+(newton-method (cubic a b c) 1)
