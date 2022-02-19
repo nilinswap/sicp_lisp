@@ -51,6 +51,30 @@ Let's notice some important things.
     - (double double) whould also adhere to it and so would (double (double double)). with inc's context, double returns a procedure which can work on data (like inc itself). (double double) 
     should adhere to nature of double so (double double) returns a procedure which can work on data. and similarily (double (double double)) should adhere to nature of (double double) and therefore it also returns a procedure which can work on data. 
 
+1-42 (captured inside 1-43.scm) - 
+    introduces a compose function. 
+    (define (compose f g)
+        (lambda (x) (f (g x)))
+    )
+    It takes two procedures and returns a procedure. All of three procedures in picture takes only 1 argument. 
+
+    - Like double from previous example, you can't use it for procedures with 0 or more than 1 arguments. 
+
+    - double is a speacial case of compose. (define (doublei f) (compose f f))
+
+    - If it returns a function, it would always be explicit. like definition of compose has lambda as return object, doublei has return of compose (which is a procedure) and like this below
+        (define (doubleii f) 
+            (define (doubleii_util x)
+                (f (f x))
+            )
+            doubleii_util
+        ) 
+    
+    - again compose and inc are very different. (compose compose) is find but (inc inc) is not. inc forces its arguments to be data and compose forces it to be procedure. It is because internally inc uses + which wants data. compose is just too unopinionated. 
+
+    - ((compose square inc) 2) worked but ((compose double inc) 2) would not. Because of internals of compose. In compose f g, output of g should be like input of f. Similarily in double, 
+    input of f and output of f must be of same nature. 
+    - (((compose double double) inc) 5) works 
 
 1-43 - A recursive order function. Understand how one can make nth order procedures. One idea is to always keep in mind the function signature. A procedure returning a procedure will always return a signature. 
 
