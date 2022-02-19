@@ -4,21 +4,20 @@
     )
 )
 
+(define (repeated f n)
+    (if (= n 0) (lambda (x) x) 
+        (compose f (repeated f (- n 1)))
+    )
+)
 
-(define (nthf f n)
-    (define (nthf_iter g f n)
-        (if (= n 1) g 
-            (nthf_iter (lambda (x) (f (g x))) f (- n 1))
+(define (repeatedi f n)
+    (define (repeatedi_iter g n)
+        (if (= n 0) g
+            (repeatedi_iter (compose f g) (- n 1))
         )
     )
-    (nthf_iter f f n)
+    (repeatedi_iter (lambda(x) x) n)
 )
 
-(define (nthfr f n)
-    (if (= n 1) f
-        (compose f (nthfr f (- n 1)))
-    )
-)
-
-( = ((nthf square 2) 5) ((nthfr square 2) 5))
+( = ((repeated square 2) 5) ((repeatedi square 2) 5))
 

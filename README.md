@@ -26,7 +26,7 @@ sqrt - It is real thing to understand this. Like what does it mean to return a p
 
 A simpler to understand proof is here
 
-![proof of (double (double double))] (proof_1-41.jpg)
+![proof of (double (double double))](proof_1-41.jpg)
 
 But a more sound proof is 
 
@@ -76,9 +76,9 @@ Let's notice some important things.
     input of f and output of f must be of same nature. 
     - (((compose double double) inc) 5) works 
 
-1-43 - A recursive order function. Understand how one can make nth order procedures. One idea is to always keep in mind the function signature. A procedure returning a procedure will always return a signature. 
+1-43 - A recursive order function. Understand how one can make nth order procedures. One idea is to always keep in mind the function signature. A procedure returning a procedure will always return a signature. Also I have done  both iterative and recursive version of repeated but know this that there is no difference. In fact, on ((double inc) 2), (double inc) is "expanded" before using any value of 2. This is done by interpreter. It is basically done normal-order instead of applicative-order(which is used everywhere else for evaluating). 
 
-1-44 - this use of nthfr from previous exercise blew my mind. 
+1-44 - this use of repeated from previous exercise blew my mind. use it as a receipe for procedure
 
 
 

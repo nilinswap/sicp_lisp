@@ -1,44 +1,25 @@
 (load "1-43.scm")
 
 (define (smooth f)
-    (lambda (x)
-        (define dx .0001)
-        (/
-            (+
+    (define (average a b c) (/ (+ a b c) 3))
+    (let ((dx 0.0001))
+        (lambda (x)
+            (average 
                 (f (+ x dx))
                 (f x)
                 (f (- x dx))
             )
-            3
         )
     )
 )
 
-(define (compose f g)
-    (lambda (x)
-        (f (g x))
-    )
+
+(define (n-fold-smooth f n)
+    ((repeated smooth n) f)
 )
 
-(define (nthfr f n)
-    (if (= n 1) (f)
-        (compose f (nthfr f (- n 1)))
-    )
-)
+(- ((n-fold-smooth square 1) 2.003) ((n-fold-smooth square 1) 2.002))
 
-(define (n-smooth f n)
-    (if (= n 0)     
-        (lambda (x)
-            (f x)
-        )
-        
-        (smooth (n-smooth 
-                f
-                (- n 1)
-            )
-        )
-    )
-)
-
+(- (square 2.003) (square 2.002))
 
 
