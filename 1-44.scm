@@ -14,6 +14,12 @@
     )
 )
 
+(define (compose f g)
+    (lambda (x)
+        (f (g x))
+    )
+)
+
 (define (nthfr f n)
     (if (= n 1) (f)
         (compose f (nthfr f (- n 1)))

@@ -7,15 +7,15 @@
 
 (define (nthf f n)
     (define (nthf_iter g f n)
-        (if (= n 0) g 
+        (if (= n 1) g 
             (nthf_iter (lambda (x) (f (g x))) f (- n 1))
         )
     )
-    (nthf_iter (lambda (x) x) f n)
+    (nthf_iter f f n)
 )
 
 (define (nthfr f n)
-    (if (= n 0) (lambda (x) x)
+    (if (= n 1) f
         (compose f (nthfr f (- n 1)))
     )
 )
