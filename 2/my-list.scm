@@ -1,0 +1,10 @@
+(define (my-list limi)
+    (define (mlu curr)
+        (if (> curr limi) ()
+            (cons curr (mlu (+ 1 curr)))
+        )
+    )
+    (mlu 0)
+)
+
+(my-list 4)

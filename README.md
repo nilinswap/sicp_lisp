@@ -83,3 +83,19 @@ Let's notice some important things.
 
 
 
+## abstrating data
+
+2-1 - *compound data* - rational numbers as a compound data
+2-2 - line segments and points as compound data
+2-3 - *data can themselves express ideas* - here area and perimeter are ideas which are independent of rectangle representatio
+2-5 - *data as just data* - compound data pair as an integer. sweet work. 
+2-6 - *data as a procedure* - in fact, a second order procedure.
+
+2-8 to 2-12 - solidification of abstract data types and their behaviour.
+2-17 to 2-23 - sequences - simplest heirchical structures
+2-23 to 2-29 - introduce tree and map over lists - a more complex form of heirchical structure. 
+2-30 and 2-31 - map over tree
+
+
+
+
