@@ -95,6 +95,8 @@ Let's notice some important things.
 2-17 to 2-23 - sequences - simplest heirchical structures
 2-23 to 2-29 - introduce tree and map over lists - a more complex form of heirchical structure. 
 2-30 and 2-31 - map over tree
+2-34 to 2-36 - accumulator 
+2-40 to 2-42 - flatmap. 
 
 
 
