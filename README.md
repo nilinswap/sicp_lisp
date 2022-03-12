@@ -98,6 +98,22 @@ Let's notice some important things.
 2-34 to 2-36 - accumulator 
 2-40 to 2-42 - flatmap. 
 
+2-53 and 2-54 - introduction to use of symbolic data. use of quotes to "quote" it. 
 
+2-56 and 2-57 - an exercise on understanding abstration layers. There are two layers here, differentiation and expression interfaces. 
+
+   - 2-56 - Here we extend differentiation to include a feature. that is top layer. other layer is not touched
+
+   - 2-57 - Here we modify expression representation. that is bottom layer. other layer is not touched
+        - this really blew my mind. we did very minor changes and it all worked so fine!! I am still unable to understand fully. I was also slightly upset that this approach surprised me, I was hoping we would have to change differentiation. 
+            - I finally could understand why this worked. I had a simple question - "how can we change expressions' complexity so drastically and still differentiation works so well?"
+                - Thing is, differentiation has no idea of how expression is represented. It only cares if the ideas that it utilises like sum?, addend etc are all implemented well. 
+                - Even in our modified expression representation, addend and augend meaning is maintained. because addition is commutative. As long as that holds differentiation will work same. 
+                - basically in new system all meanings of interfaces for differentiation is maintained. We are talking about meaning here..make a note.
+                - However, one doesn't have to make sure "if meanings as per differentiation is maintained or not", rather one just has to see if it makes sense in isolation or not. e.g. even if differentiation was not there. our new addend and augend would still be meaningful because of the basic nature of addition.
+                - Once meaning is maintained in isolation, we are sure it will not cause problem to differentiation. i.e. because differentiation's definition and addition's commutativity are connected using underlying mathematics and therefore consistency is ensured.
+            
+
+    
 
 
