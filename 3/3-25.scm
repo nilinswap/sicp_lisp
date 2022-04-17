@@ -1,93 +1,129 @@
-(define (make-table)
+(define nil '())
+(define (make-table) ;check this
     (list '*table*))
 
+(define (assoc key records)
+    (cond ((null? records) false)
+        ((equal? key (caar records)) (car records))
+        (else (assoc key (cdr records)))))
 
-
-
-(define (assoc-gen keys records)
-    (cond 
+(define (find-last-if-number records) ; if last item is that record return value  else return false
+    (cond
         ((null? records) false)
-        ((null? (cdr keys)) (assoc (car keys) records))
-        (else (let
-                ((record (assoc (car keys) records)))
-                (if record 
-                    (assoc-gen (cdr keys) (cdr record))
-                    false 
-                )
+        ((null? (cdr records))
+            (if (number? (car records))
+                records
+                false
             )
         )
-    )
-)
-
-(define (keys-val keys value)
-    (if 
-        (null? (cdr keys)) (cons (car keys) value)
-        (cons 
-            (car keys) 
-            (list (keys-val (cdr keys) value))
+        (else 
+            (find-last-if-number (cdr records))
         )
     )
 )
 
-(define (insert! keys value table)
-    (let ((record (assoc-gen keys (cdr table))))
-        (if record
-            (set-cdr! record value)
-            (set-cdr! table
-                (cons (full-keys-val keys value table)
+(define (insert! table keys value)
+    (let ((record (get-record table keys)))
+        ( if (pair? record)
+            (set-car! record value)
+            (full-insert-and-return! table keys value)
+        )
+    )
+    'ok
+)
+
+(define (attach-at-end! records value)
+    (cond 
+        ((null? records) (error "empty records not allowed"))
+        ((null? (cdr records)) (set-cdr! records (cons value nil)))
+        (else (attach-at-end! (cdr records) value))
+    )
+)
+
+(define (full-insert-and-return! table keys value) ; what if keys is null
+    (if (null? keys) 
+        (if (list? (cdr table))
+            (attach-at-end! (cdr table) value)
+            (begin
+
+                (set-cdr! table (cons value nil))
+                (cdr table)
+            )
+        )
+        (let ((subRecord (assoc (car keys) (cdr table))))
+            (if subRecord
+                (begin 
+                    (set-cdr! subRecord (full-insert-and-return! subRecord (cdr keys) value))
+                    subRecord
+                )
+                (begin
+                    (set-cdr! table (list (cons (car keys) 'z)))
+                    (set-cdr! (cadr table) (full-insert-and-return! (cadr table) (cdr keys) value))
                     (cdr table)
                 )
             )
         )
     )
-'ok)
-
-
-(define (lookup keys table)
-    (let ((record (assoc-gen keys (cdr table))))
-        (display record)
-        (if record 
-            (cdr record)
-            false
-            )
-    )
 )
 
-(define (full-keys-val keys value table)
-    (if 
-        (null? keys) value 
-        (let
-            ((partial-record (assoc (car keys) (cdr table))))
-            (if partial-record
-                (full-keys-val (cdr keys) value partial-record)
-                (keys-val keys value)
+(define (get-record table keys)
+    (if (null? (cdr table));this only checks for top level table. for others we use assoc result. assuming table is a pair
+        false
+        (let 
+            ((records (cdr table)))
+            (if 
+                (null? keys) 
+                ( let ((last-pair (find-last-if-number records)))
+                    (if (pair? last-pair) (car last-pair) last-pair)
+                ) 
+                ( let ((subRecord (assoc (car keys) records)))
+                    (if subRecord 
+                        (lookup subRecord (cdr keys))
+                        false
+                    )
+                )
             )
         )
     )
 )
 
-
-(define tabel (make-table))
-(lookup (list 'a) tabel)
-(insert! (list 'a) 2 tabel)
-(lookup (list 'a) tabel)
-(define keys (list 'a))
-(assoc-gen keys (cdr tabel))
-(define records (cdr tabel))
-(assoc (car keys) records)
-
-
-(define keys2 (list 'b 'c))
-(lookup keys2 tabel)
-(insert! keys2 3 tabel)
-(lookup keys2 tabel)
-(define records2 (cdr tabel))
-(assoc-gen keys2 (cdr tabel))
-(assoc (car keys2) records2)
-
-(define keys3 (list 'b))
-(lookup keys3 tabel)
-(insert! keys3 4 tabel)
-(lookup keys3 tabel)
+(define (lookup table keys)
+    (if (null? (cdr table))
+        false
+        (let ((record (get-record table keys)))
+            (if (pair? record) (car record) record)
+        )
+    )
+)
 
 
+
+
+(define table (make-table))
+
+(define k1 (list 'a))
+(insert! table k1 5)
+(lookup table k1)
+
+
+(define k2 (list 'c 'd))
+(insert! table k2 7)
+(lookup table k2)
+
+
+(define k3 (list 'a 'b))
+(insert! table k3 6)
+(lookup table k3)
+
+
+(define k4 (list 'a 'c 'd))
+(insert! table k4 4)
+(lookup table k4)
+(insert! table k4 8)
+(lookup table k4)
+
+
+(define k5 (list 'a 'c 'd 'e))
+(insert! table k5 9)
+(lookup table k5)
+(lookup table k4)
